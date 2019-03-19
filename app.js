@@ -62,7 +62,7 @@ bittrex.getbalances((bittrex, err) => {
                                   lowest_profit = profit;
 
                               let query = 'UPDATE cryptocurrencies SET amount = ?, price = ?, profit = ?, highest_profit = ?, lowest_profit = ?, ' +
-                                  'difference_1h = ?, difference_24h = ?, difference_7d = ?, updated_at = ? WHERE name = ?';
+                                  'difference_1h = ?, difference_24h = ?, difference_7d = ?, updated_at = ? WHERE name = ? AND active = 1';
                               let data = [coin.Balance, price, profit, highest_profit, lowest_profit, coinmarketcap.percent_change_1h, coinmarketcap.percent_change_24h, coinmarketcap.percent_change_7d, new Date(), fullname];
 
                               connection.query(query, data, (err, res) => {
