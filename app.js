@@ -26,12 +26,14 @@ bittrex.getbalances((bittrex, err) => {
        bittrex.result.forEach(coin => {
            const coins = {
                'ADA': {'name': 'Cardano'},
+               'BAT': {'name': 'Basic Attention Token'},
                'BTC': {'name': 'Bitcoin'},
                'DGB': {'name': 'DigiByte'},
                'ETH': {'name': 'Ethereum'},
                'LTC': {'name': 'Litecoin'},
                'RDD': {'name': 'ReddCoin'},
                'USDT': {'name': 'Tether'},
+               'XLM': {'name': 'Stellar'},
                'XRP': {'name': 'Ripple'}
            };
 
@@ -39,7 +41,7 @@ bittrex.getbalances((bittrex, err) => {
                let fullname = coins[coin.Currency].name;
 
                (async () => {
-                   await coinmarketcap.ticker(fullname, 'EUR').then(coinmarketcap => {
+                   await coinmarketcap.ticker(fullname.replace(/ /g, '-'), 'EUR').then(coinmarketcap => {
                        coinmarketcap = coinmarketcap[0];
 
                        connection.query('SELECT bought_for, highest_profit, lowest_profit FROM cryptocurrencies WHERE name = ?', [fullname], (err, res) => {
