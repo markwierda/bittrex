@@ -4,9 +4,9 @@
   "description": "Node.js script for updating my cryptocurrencies database table",
   "main": "app.js",
   "dependencies": {
+    "coinmarketcap-api": "^3.0.1",
     "mysql": "^2.16.0",
-    "node-bittrex-api": "^0.8.3",
-    "node-coinmarketcap-api": "^1.0.4"
+    "node-bittrex-api": "^0.8.3"
   },
   "devDependencies": {},
   "scripts": {
