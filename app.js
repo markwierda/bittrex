@@ -27,7 +27,7 @@ bittrex.getbalances((bittrex, err) => {
        bittrex.result.forEach(coin => {
            if (coins.indexOf(coin.Currency) > -1) {
                coinmarketcap.getQuotes({symbol: coin.Currency, convert: 'EUR'}).then(coinmarketData => {
-                   if (coinmarketData.status.error_code === 200) {
+                   if (coinmarketData.status.error_code === 0) {
                        coinmarketData = coinmarketData.data[coin.Currency];
 
                        if (coinmarketData.name === 'XRP')
@@ -63,21 +63,21 @@ bittrex.getbalances((bittrex, err) => {
                                    });
                                }
                            }
+
+                           count++;
+                           if (count === Object.keys(coins).length) {
+                               connection.query('UPDATE cryptocurrencies SET error = ?', [null], (err, res) => {
+                                   if (err)
+                                       console.error(err.toString());
+                               });
+
+                               connection.end();
+                           }
                        });
                    } else {
                        console.error(coinmarketData.status.error_message); 
                    }
                }).catch(console.error.toString());
-           }
-
-           count++;
-           if (count === Object.keys(coins).length) {
-               connection.query('UPDATE cryptocurrencies SET error = ?', [null], (err, res) => {
-                   if (err)
-                       console.error(err.toString());
-                });
-
-               connection.end();
            }
        });
    }
